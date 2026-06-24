@@ -1,4 +1,4 @@
-import GameEngine as util
+from Engine import GameEngine as util
 import msvcrt
 import random
 # PowerUps= ["Plus One", "Minus Two", "Re-Roll", "Take 4", "Pop Last",  "Gift"]
@@ -49,11 +49,11 @@ def  player2_turn(nm2):
             
       
 def bot_turn() :
-    
+    dice_for_bot= [1,5,2,3,1,3,4,2,4,1,5,5,3,6,4,6]
     print("\n\nBingoBot31 will roll the  dice now!\n")               
-    value=random.randint(1,6)
-    bot.append(value)
-    print(f"\n\n\n\t\tBingoBot31 bagged a {value}")
+    value=random.randint(0,len(dice_for_bot)-1)
+    bot.append(dice_for_bot[value])
+    print(f"\n\n\n\t\tBingoBot31 bagged a {dice_for_bot[value]}")
     util.res_scrn()
 
 def res_scores() :
