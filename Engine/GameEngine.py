@@ -58,15 +58,21 @@ def roll_action() :
             return True
         else :
             inv_input()
-
-def player1_name():
-    nm1= input("\nEnter Player 1 Name:> ")
-    return nm1
-    
-def player2_name():
-    nm2= input("\nEnter Player 2 Name:> ")
-    return nm2
-    
+            
+def player_names(P_no):
+    while True :
+        name= input(f"\nEnter player {P_no} name here>> ").title().strip()
+        
+        if len(name)== 0:
+            print("Player Name cannot be empty !!")
+            res_scrn()
+            
+        elif len(name) > 10 :
+            print("Player name cannot be more than 10 characters!!")
+            res_scrn()
+        
+        else:
+            return name
 
 def replay_opt():
     

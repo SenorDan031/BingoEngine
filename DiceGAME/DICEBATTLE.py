@@ -1,6 +1,7 @@
 # This program allows a 2-users to roll dice, user with the highest no. of points wins the game.
 from Engine import GameEngine as util
 from DiceGAME import DB_ACTION as action
+from DiceGAME import DB_SCOREBRD as calc
 
 def main():
     
@@ -12,13 +13,14 @@ def main():
             case '1' :
                 util.res_scrn()
                 print("\t\t Human vs Human Selected\t\t")
-                nm1=util.player1_name()
-                nm2=util.player2_name()
-                print(f" {nm1.capitalize()} vs {nm2.capitalize()}\n")
+                nm1=util.player_names(1)
+                nm2=util.player_names(2)
+                print(f" {nm1} vs {nm2}\n")
                 util.any_key_inp()
                 
                 while True:
-                    
+                    player1_score=[]
+                    player2_score=[]
                     util.res_scrn()
                     
                     action.rules_setRoll()
@@ -33,35 +35,24 @@ def main():
                     for Round in  range(limits) :
                         
                         print(f"\t\t\t\tRound {Round+1}")
-                        print(f"\n\n\t\t{nm1} {sum(action.player1)} :  {nm2} {sum(action.player2)}\n\n")
+                        print(f"\n\n\t\t{nm1} {sum(player1_score)} :  {nm2} {sum(player2_score)}\n\n")
                         
                         print(f"\n\n{nm1} will roll the  dice now!\n")
-                        action.player1_turn(nm1)
+                        score1=action.player_turn(nm1,player1_score)
+                        player1_score.append(score1)
                                 
                         print(f"\n\n{nm2} will roll the  dice now!\n")
-                        action.player2_turn(nm2)
+                        score2=action.player_turn(nm2,player2_score)
+                        player2_score.append(score2)
                         
                         util.res_scrn()
                                 
                     util.res_scrn()
                     
-                    sum1= sum(action.player1)
-                    sum2= sum(action.player2)
+                    scr1= sum(player1_score)
+                    scr2= sum(player2_score)
                             
-                    if sum2>sum1 :
-                        print(f"{nm2} is  the winner!\n\n")
-                        
-                        print(f"{nm1} scored {sum1} : {nm2} scored {sum2} (Winner) ")
-                            
-                    elif sum1>sum2 :
-                        print(f"{nm1} is the winner!\n\n")
-                        print(f"{nm1} scored {sum1} (Winner)  : {nm2} scored {sum2}")
-                            
-                    else :
-                        print("It's a tie ")
-                        print(f"{nm1} {sum1} : {nm2} {sum2}")
-                        
-                    action.res_scores()
+                    calc.score_calci(nm1,nm2,scr1,scr2)
                     if not util.replay_opt():
                         break
             
@@ -69,11 +60,13 @@ def main():
                 
                 util.res_scrn()
                 print("\t\t Human vs BOT Selected\t\t")
-                
-                nm1= util.player1_name()
-                print(f" {nm1.capitalize()} vs BingoBot31\n")
+                bot="BingoBot31"
+                nm1=util.player_names(1)
+                print(f" {nm1} vs BingoBot31\n")
                 
                 while True:
+                    player1_score=[]
+                    bot_score=[]
 
                     util.any_key_inp()
                     
@@ -91,29 +84,20 @@ def main():
                     for Round in  range(limits) :
                         
                         print(f"\t\t\t\tRound {Round+1}")
-                        print(f"\n\n\t\t{nm1} {sum(action.player1)} :  BingoBot31 {sum(action.bot)}\n\n")
+                        print(f"\n\n\t\t{nm1} {sum(player1_score)} :  BingoBot31 {sum(bot_score)}\n\n")
                         
-                        action.player1_turn(nm1)
+                        print(f"\n\n{nm1} will roll the  dice now!\n")
+                        score1=action.player_turn(nm1,player1_score)
+                        player1_score.append(score1)
                                 
-                        action.bot_turn()
+                        action.bot_turn(bot_score)
                     
                     util.res_scrn()
                     
-                    sum1= sum(action.player1)
-                    sum2= sum(action.bot)
-                            
-                    if sum2>sum1 :
-                        print("BingoBot31 is  the winner!")
-                        print(f"{nm1} scored {sum1}  : BingoBot31 scored {sum2} (Winner) ")
-                            
-                    elif sum1>sum2 :
-                        print(f"{nm1} is the winner! ")
-                        print(f"{nm1} scored {sum1} (Winner) : BingoBot31 scored {sum2} ")
-                            
-                    else :
-                        print("It's a tie ")
+                    scr1= sum(player1_score)
+                    scr2= sum(bot_score)
+                    calc.score_calci(nm1,bot,scr1,scr2)
                     
-                    action.res_scores()
                     if not  util.replay_opt():
                         break
                     
